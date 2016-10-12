@@ -10,9 +10,10 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import {increase, decrease} from './action/counterAction';
+import {increaseValue, decreaseValue} from './action/counterAction';
+import {increaseFontSize, decreaseFontSize} from './action/fontSizeAction';
 import createStore from './lib/src/createStore';
-import {reducer} from './reducer/counterReducer';
+import reducers from './reducer';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,43 +44,70 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: 0
+      value: 0,
+      fontSize: 18
     };
-    store.subscribe(() =>
+    store.subscribe(() => {
+      var state = store.getState();
       this.setState({
-        value: store.getState()
-      })
-    );
+        value: state.counter.value,
+        fontSize: state.fontSize.value
+      });
+    });
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{this.state.value}</Text>
-        <View style={styles.rowContainer}>
-          <TouchableOpacity style={styles.touchableOpacity} onPress={this.onIncrementPressed}>
-            <Text style={styles.text}>点击加一</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.touchableOpacity, {marginLeft: 10}]} onPress={this.onDecreasePressed}>
-            <Text style={styles.text}>点击减一</Text>
-          </TouchableOpacity>
+      <View style={{flex: 1}}>
+        <View style={styles.container}>
+          <Text style={styles.text}>{this.state.value}</Text>
+          <View style={styles.rowContainer}>
+            <TouchableOpacity style={styles.touchableOpacity} onPress={this.onIncreaseValuePressed}>
+              <Text style={styles.text}>点击加一</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.touchableOpacity, {marginLeft: 10}]} onPress={this.onDecreaseValuePressed}>
+              <Text style={styles.text}>点击减一</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={{height: 2, backgroundColor: 'gray'}}/>
+
+        <View style={styles.container}>
+          <Text style={[styles.text, {fontSize: this.state.fontSize}]}>{this.state.fontSize}</Text>
+          <View style={styles.rowContainer}>
+            <TouchableOpacity style={styles.touchableOpacity} onPress={this.onIncrementFontSizePressed}>
+              <Text style={styles.text}>增大字体</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.touchableOpacity, {marginLeft: 10}]} onPress={this.onDecreaseFontSizePressed}>
+              <Text style={styles.text}>缩小字体</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
   }
 
-  onIncrementPressed() {
-    store.dispatch(increase());
+  onIncreaseValuePressed() {
+    store.dispatch(increaseValue());
   }
 
-  onDecreasePressed() {
-    store.dispatch(decrease());
+  onDecreaseValuePressed() {
+    store.dispatch(decreaseValue());
+  }
+
+  onIncrementFontSizePressed() {
+    store.dispatch(increaseFontSize());
+  }
+
+  onDecreaseFontSizePressed() {
+    store.dispatch(decreaseFontSize());
   }
   
 }
 
 export default function globalInit() {
-  store = createStore(reducer);
+  store = createStore(reducers);
   //注意, 使用JSON.stringify只能将对象转化为json string ,并不能将方法也转化的
   // console.warn(Object.keys(store));
   return App;

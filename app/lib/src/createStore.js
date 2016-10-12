@@ -25,6 +25,7 @@ function clearSubscribe() {
 }
 
 function dispatch(action) {
+  console.log(`dispatch action = ${JSON.stringify(action)}`);
   //调用reducer更新状态
   globalState = globalReducer(globalState, action);
   //通知订阅器已更新

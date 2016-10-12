@@ -4,18 +4,18 @@
 
 
 export const ACTIONS = {
-  INCREMENT: 'INCREMENT',
-  DECREMENT: 'DECREMENT'
+  INCREASEVALUE: 'INCREASEVALUE',
+  DECREASEVALUE: 'DECREASEVALUE'
 };
 
-export function increase() {
+export function increaseValue() {
   return {
-    type: ACTIONS.INCREMENT,
+    type: ACTIONS.INCREASEVALUE,
   };
 }
 
-export function decrease() {
+export function decreaseValue() {
   return {
-    type: ACTIONS.DECREMENT
+    type: ACTIONS.DECREASEVALUE
   };
 }

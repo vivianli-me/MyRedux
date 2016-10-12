@@ -6,15 +6,22 @@ import {ACTIONS} from '../action/counterAction';
 
 /**
  *
- * @param state 初始状态为0
+ * @param state 初始状态为{value: 0}
  * @param action
  */
-export function reducer(state = 0, action) {
+export default function counterReducer(state = {value: 0}, action) {
+  console.log(`counterReducer state = ${JSON.stringify(state)}  action = ${JSON.stringify(action)}`);
   switch (action.type) {
-    case ACTIONS.INCREMENT:
-      return state + 1;
-    case ACTIONS.DECREMENT:
-      return state - 1;
+    case ACTIONS.INCREASEVALUE:
+      return {
+        ...state,
+        value: state.value + 1
+      };
+    case ACTIONS.DECREASEVALUE:
+      return {
+        ...state,
+        value: state.value - 1
+      };
     default:
       return state;
   }

@@ -10,7 +10,6 @@ import {ACTIONS} from '../action/fontSizeAction';
  * @param action
  */
 export default function fontSizeReducer(state = {value: 18}, action) {
-  console.log(`fontSizeReducer state = ${JSON.stringify(state)}  action = ${JSON.stringify(action)}`);
   switch (action.type) {
     case ACTIONS.BIGGER:
       return {

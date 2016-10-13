@@ -19,3 +19,12 @@ export function decreaseValue() {
     type: ACTIONS.DECREASEVALUE
   };
 }
+
+//异步action
+export function increaseValueAsyn() {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(increaseValue());
+    }, 1000);
+  }
+}

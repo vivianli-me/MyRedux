@@ -31,6 +31,7 @@ function dispatch(action) {
   subscriberList.forEach(subscriber => {
     subscriber();
   });
+  return action;
 }
 
 function getState() {

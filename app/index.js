@@ -10,10 +10,13 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import {increaseValue, decreaseValue} from './action/counterAction';
+import {increaseValue, decreaseValue, increaseValueAsyn} from './action/counterAction';
 import {increaseFontSize, decreaseFontSize} from './action/fontSizeAction';
 import createStore from './lib/src/createStore';
 import reducers from './reducer';
+import applyMiddleware from './lib/src/applyMiddleware';
+import createLoggerMiddleware from './lib/middleware/createLoggerMiddleware';
+import createThunkMiddleware from './lib/middleware/createThunkMiddleware';
 
 const styles = StyleSheet.create({
   container: {
@@ -89,7 +92,7 @@ class App extends React.Component {
   }
 
   onIncreaseValuePressed() {
-    store.dispatch(increaseValue());
+    store.dispatch(increaseValueAsyn());
   }
 
   onDecreaseValuePressed() {
@@ -107,7 +110,9 @@ class App extends React.Component {
 }
 
 export default function globalInit() {
-  store = createStore(reducers);
+  var loggerMiddleware = createLoggerMiddleware();
+  var thunkMiddleware = createThunkMiddleware();
+  store = applyMiddleware(loggerMiddleware, thunkMiddleware)(createStore)(reducers);
   //注意, 使用JSON.stringify只能将对象转化为json string ,并不能将方法也转化的
   // console.warn(Object.keys(store));
   return App;

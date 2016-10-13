@@ -79,7 +79,7 @@ class App extends React.Component {
         <View style={styles.container}>
           <Text style={[styles.text, {fontSize: this.state.fontSize}]}>{this.state.fontSize}</Text>
           <View style={styles.rowContainer}>
-            <TouchableOpacity style={styles.touchableOpacity} onPress={this.onIncrementFontSizePressed}>
+            <TouchableOpacity style={styles.touchableOpacity} onPress={this.onIncreaseFontSizePressed}>
               <Text style={styles.text}>增大字体</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.touchableOpacity, {marginLeft: 10}]} onPress={this.onDecreaseFontSizePressed}>
@@ -99,7 +99,7 @@ class App extends React.Component {
     store.dispatch(decreaseValue());
   }
 
-  onIncrementFontSizePressed() {
+  onIncreaseFontSizePressed() {
     store.dispatch(increaseFontSize());
   }
 
@@ -112,7 +112,7 @@ class App extends React.Component {
 export default function globalInit() {
   var loggerMiddleware = createLoggerMiddleware();
   var thunkMiddleware = createThunkMiddleware();
-  store = applyMiddleware(loggerMiddleware, thunkMiddleware)(createStore)(reducers);
+  store = applyMiddleware(thunkMiddleware,loggerMiddleware)(createStore)(reducers);
   //注意, 使用JSON.stringify只能将对象转化为json string ,并不能将方法也转化的
   // console.warn(Object.keys(store));
   return App;

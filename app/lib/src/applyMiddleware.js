@@ -14,6 +14,7 @@ function compose(...functionList) {
     return functionList[0];
   }
   //箭头函数要注意return, reduceRight是为了让中间件按从左到右的方式执行
+  //一层层封装dispatch, 链式调用
   return (...args) => functionList.reduceRight((composed, f) => f(composed), ...args);
 }
 
@@ -21,9 +22,12 @@ function compose(...functionList) {
 export default function applyMiddleware(...middlewares) {
   return createStore => (reducer, initState) => {
     var store = createStore(reducer, initState);
+    var dispatch = store.dispatch;
     var middlewareAPI = {
       getState: store.getState,
-      dispatch: store.dispatch
+      //为了让最后各个middleware拿到的dispatch是最新的,
+      //这里必须用匿名函数 action => dispatch(action), 而不能直接用store.dispatch
+      dispatch: action => dispatch(action)
     };
     var chain = [];
     chain = middlewares.map(middleware => middleware(middlewareAPI));

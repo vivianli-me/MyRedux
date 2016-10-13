@@ -25,7 +25,6 @@ function clearSubscribe() {
 }
 
 function dispatch(action) {
-  console.log(`dispatch action = ${JSON.stringify(action)}`);
   //调用reducer更新状态
   globalState = globalReducer(globalState, action);
   //通知订阅器已更新
@@ -46,11 +45,12 @@ const store = {
 };
 
 
-export default function createStore(reducer) {
+export default function createStore(reducer, initState = {}) {
   if (typeof reducer !== 'function') {
     throw new Error(`the param must be a function. typeof reducer ${typeof reducer}`);
   }
   globalReducer = reducer;
+  globalState = initState;
   return store;
 
 }

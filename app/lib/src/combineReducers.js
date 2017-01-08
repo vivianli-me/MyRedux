@@ -9,8 +9,8 @@
  * @returns {function()}
  */
 export default function combineReducers(reducers) {
-  let keys = Object.keys(reducers);//拿到传入对象的所有key
-  let finalReducers = {};//必须先声明为空对象{}
+  const keys = Object.keys(reducers);//拿到传入对象的所有key
+  const finalReducers = {};//必须先声明为空对象{}
   for (let i = 0; i < keys.length; i++) {
     let key = keys[i];
     let value = reducers[key];
@@ -20,13 +20,12 @@ export default function combineReducers(reducers) {
   }
 
   return (prevState = {}, action) => {
-    let nextState = {};
-    let reducerKeys = Object.keys(finalReducers);
+    const nextState = {};
+    const reducerKeys = Object.keys(finalReducers);
     for (let i = 0; i < reducerKeys.length; i++) {
-      let key = keys[i];
+      let key = reducerKeys[i];
       nextState[key] = finalReducers[key](prevState[key] ,action);
     }
     return nextState;
   };
-
 }

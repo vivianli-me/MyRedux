@@ -21,21 +21,19 @@ function compose(...functionList) {
 
 export default function applyMiddleware(...middlewares) {
   return createStore => (reducer, initState) => {
-    var store = createStore(reducer, initState);
-    var dispatch = store.dispatch;
-    var middlewareAPI = {
+    const store = createStore(reducer, initState);
+    let dispatch = store.dispatch;
+    const middlewareAPI = {
       getState: store.getState,
       //为了让最后各个middleware拿到的dispatch是最新的,
       //这里必须用匿名函数 action => dispatch(action), 而不能直接用store.dispatch
       dispatch: action => dispatch(action)
     };
-    var chain = [];
-    chain = middlewares.map(middleware => middleware(middlewareAPI));
-    var dispatch = compose(...chain)(store.dispatch);//包装dispatch
+    const chain = middlewares.map(middleware => middleware(middlewareAPI));
+    dispatch = compose(...chain)(store.dispatch);//包装dispatch
     return {
       ...store,
       dispatch
     };
-
   };
 }

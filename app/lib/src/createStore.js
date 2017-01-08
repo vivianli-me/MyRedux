@@ -25,6 +25,9 @@ function clearSubscribe() {
 }
 
 function dispatch(action) {
+  if (!action.type) {
+    throw new Error('the action must has the "type" key');
+  }
   //调用reducer更新状态
   globalState = globalReducer(globalState, action);
   //通知订阅器已更新

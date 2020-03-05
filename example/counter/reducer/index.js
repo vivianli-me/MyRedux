@@ -5,7 +5,7 @@
 
 import counter from './counterReducer';
 import fontSize from './fontSizeReducer';
-import combineReducers from '../lib/src/combineReducers';
+import combineReducers from '../../../lib/combineReducers';
 
 export default combineReducers({
   counter,

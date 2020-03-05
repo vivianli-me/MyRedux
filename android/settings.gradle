@@ -1,3 +1,0 @@
-rootProject.name = 'MyRedux'
-
-include ':app'
